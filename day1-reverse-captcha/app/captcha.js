@@ -1,5 +1,6 @@
 const matchesNext = (i, text) => {
-  const next = (i === text.length - 1 ? 0 : i + 1);
+  const halfway = text.length / 2;
+  const next = (i + halfway) % text.length;
   return text[i] === text[next];
 };
 
