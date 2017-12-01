@@ -1,11 +1,13 @@
-const captcha = (numberText) => {
-  const numberTextWithWrap = numberText.slice(0) + numberText[0];
+const matchesNext = (i, text) => {
+  const next = (i === text.length - 1 ? 0 : i + 1);
+  return text[i] === text[next];
+};
 
-  let matchingDigits = [];
-  for (let i = 0; i < numberText.length; i++)
-    if (numberText[i] === numberTextWithWrap[i + 1])
-      matchingDigits.push(parseInt(numberText[i]));
-  return matchingDigits.reduce((sum, digit) => sum + digit, 0);
+const captcha = (numberText) => {
+  return numberText
+    .split('')
+    .filter((digitChar, i) => matchesNext(i, numberText))
+    .reduce((sum, digitChar) => sum + parseInt(digitChar), 0);
 };
 
 export default captcha;
