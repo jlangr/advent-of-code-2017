@@ -64,15 +64,15 @@
   (is (= 7 (square-size 45))))
 
 (deftest cells-to-backtrack-from-test
-  (is (= 0 (less-than-ring-max 49)))
-  (is (= 13 (less-than-ring-max 36)))
-  (is (= 2 (less-than-ring-max 47)))
-  (is (= 2 (less-than-ring-max 7)))
-  (is (= 3 (less-than-ring-max 6)))
-  (is (= 4 (less-than-ring-max 5)))
-  (is (= 5 (less-than-ring-max 4)))
-  (is (= 6 (less-than-ring-max 3)))
-  (is (= 7 (less-than-ring-max 2))))
+  (is (= 0 (delta-max 49)))
+  (is (= 13 (delta-max 36)))
+  (is (= 2 (delta-max 47)))
+  (is (= 2 (delta-max 7)))
+  (is (= 3 (delta-max 6)))
+  (is (= 4 (delta-max 5)))
+  (is (= 5 (delta-max 4)))
+  (is (= 6 (delta-max 3)))
+  (is (= 7 (delta-max 2))))
 
 (deftest manhattan-distance
   (is (= 0 (distance 1)))

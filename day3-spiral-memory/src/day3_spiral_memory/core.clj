@@ -7,8 +7,8 @@
 
 (defn is-exact-square-of-odd-number [n]
   (and
-    (odd? (int (Math/floor (Math/sqrt n))))
-    (= n (sq ( int (Math/sqrt n))))))
+    (odd? (int-sqrt n))
+    (= n (sq (int-sqrt n)))))
 
 (defn ring-max [n]
   (if (is-exact-square-of-odd-number n)
@@ -21,7 +21,7 @@
 (defn square-size [n]
   (int-sqrt (ring-max n)))
 
-(defn less-than-ring-max [number]
+(defn delta-max [number]
   (- (ring-max number) number))
 
 ;; This is a very rote solution, seems disappointing.
@@ -29,40 +29,32 @@
 ;; calculate things.
 (defn x [n] (let [side-delta (dec (square-size n))]
     (cond
-      (<= (less-than-ring-max n) (* 1 side-delta))
-      (let [zero-index (- (ring-max n) side-delta)]
-            (- n zero-index))
+      (<= (delta-max n) (* 1 side-delta))
+      (- n (- (ring-max n) side-delta))
 
-      (<= (less-than-ring-max n) (* 2 side-delta))
+      (<= (delta-max n) (* 2 side-delta))
       0
 
-      (<= (less-than-ring-max n) (* 3 side-delta))
-      (+ side-delta (- (less-than-ring-max n) (* 3 side-delta)))
+      (<= (delta-max n) (* 3 side-delta))
+      (+ side-delta (- (delta-max n) (* 3 side-delta)))
 
       :else
       side-delta)))
 
 (defn y [n] (let [side-delta (dec (square-size n))]
     (cond
-      (<= (less-than-ring-max n) (* 1 side-delta))
+      (<= (delta-max n) (* 1 side-delta))
       side-delta
 
-      (<= (less-than-ring-max n) (* 2 side-delta))
-      (let [zero-index (- (ring-max n) (* 2 side-delta))]
-            (- n zero-index))
+      (<= (delta-max n) (* 2 side-delta))
+      (- n (- (ring-max n) (* 2 side-delta)))
 
-      (<= (less-than-ring-max n) (* 3 side-delta))
+      (<= (delta-max n) (* 3 side-delta))
       0
 
       :else
-      (+ side-delta (- (less-than-ring-max n) (* 4 side-delta)))
-      )))
+      (+ side-delta (- (delta-max n) (* 4 side-delta))))))
 
 (defn distance [number]
-  (if (= number 1)
-    0
-    (let [x1 (x number)
-          y1 (y number)
-          x0 (quot (square-size number) 2)
-          y0 x0]
-      (+ (Math/abs (- x1 x0)) (Math/abs (- y1 y0))))))
+  (let [center (quot (square-size number) 2)]
+    (+ (Math/abs (- (x number) center)) (Math/abs (- (y number) center)))))
