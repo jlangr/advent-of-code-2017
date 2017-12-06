@@ -39,14 +39,23 @@ public class BlockAllocator {
 
     public int redistributeAll() {
         Set<String> allocations = new HashSet<>();
-        allocations.add(Arrays.toString(banks));
+        allocations.add(banksSignature());
 
         int redistributeCount = 0;
         do {
             redistributeMax();
-            allocations.add(Arrays.toString(banks));
+            allocations.add(banksSignature());
             redistributeCount++;
-        } while (allocations.size() == redistributeCount + 1);
+        } while (noDuplicatesExist(allocations, redistributeCount));
         return redistributeCount;
+    }
+
+    private String banksSignature() {
+        return Arrays.toString(banks);
+    }
+
+    private boolean noDuplicatesExist(Set<String> allocations, int redistributeCount) {
+        int oneForTheOriginalConfiguration = 1;
+        return allocations.size() == redistributeCount + oneForTheOriginalConfiguration;
     }
 }
